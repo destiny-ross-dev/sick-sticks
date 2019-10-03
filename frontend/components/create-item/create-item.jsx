@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
-
+import Error from "../ErrorMessage";
 import { FormContainer } from "./create-item.styles";
 
 export const CREATE_ITEM_MUTATION = gql`
@@ -41,18 +42,27 @@ class CreateItem extends Component {
     this.setState({ [name]: val });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-  };
-
   render() {
     let { title, price, description } = this.state;
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { error, loading }) => {
           return (
-            <FormContainer onSubmit={this.handleSubmit}>
-              <fieldset>
+            <FormContainer
+              onSubmit={async e => {
+                //stops default form submit
+                e.preventDefault();
+                //call createItem mutation
+                const res = await createItem();
+                //route to single item page
+                Router.push({
+                  pathname: "/item",
+                  query: { id: res.data.createItem.id }
+                });
+              }}
+            >
+              <Error error={error} />
+              <fieldset disabled={loading} aria-busy={loading}>
                 <label htmlFor="title">
                   Title
                   <input

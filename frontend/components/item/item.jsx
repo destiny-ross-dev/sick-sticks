@@ -13,7 +13,6 @@ export default class Item extends Component {
 
   render() {
     const { item } = this.props;
-    console.log(item.id);
     return (
       <ItemContainer>
         {item.image && <img src={item.image} alt={item.title} />}

@@ -3,7 +3,9 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import Form from "../components/styles/Form";
 import Signup from "../components/sign-up/sign-up";
+
 import styled from "styled-components";
+import Signin from "../components/sign-in/sign-in";
 
 const Columns = styled.div`
   display: grid;
@@ -15,7 +17,7 @@ const SignupPage = props => {
   return (
     <Columns>
       <Signup />
-      <Signup />
+      <Signin />
       <Signup />
     </Columns>
   );
